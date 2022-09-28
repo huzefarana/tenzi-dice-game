@@ -75,4 +75,5 @@ export default function Main() {
     </main>
   )
 }
+console.log("hello");
 
