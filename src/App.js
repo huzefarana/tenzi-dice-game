@@ -75,5 +75,9 @@ export default function Main() {
     </main>
   )
 }
+<<<<<<< HEAD
 console.log("1");
+=======
+console.log("hello");
+>>>>>>> 8d182df0623ea05f3753ba4ed33a8ce5732f6dbc
 
