@@ -5,17 +5,18 @@ import Confetti from 'react-confetti'
 
 export default function Main() {
   function allNewDie() {
-    const randomArray = []
+    const newDice = []
     for (let i = 0; i < 10; i++) {
-      randomArray.push({
+      newDice.push({
         value: Math.ceil(Math.random() * 6),
         isHeld: false,
         id: nanoid(),
       })
     }
-    return randomArray
+    return newDice
   }
-
+  const [dice, setDice] = React.useState(allNewDie)
+  const [tenzies, setTenzies] = React.useState(false)
   function rollDice() {
     if(!tenzies){
       setDice(oldDice => oldDice.map(die =>{
@@ -42,16 +43,13 @@ export default function Main() {
     }))
   }
 
-  const [dice, setDice] = React.useState(allNewDie)
-  const [tenzies, setTenzies] = React.useState(false)
-
+  // checking game over
   React.useEffect(()=>{
     const allHeld = dice.every(die => die.isHeld)
     const firsValue = dice[0].value
     const allSameValue = dice.every(die => die.value === firsValue)
     if (allHeld && allSameValue){
       setTenzies(true)
-      
     }
   },[dice])
 
@@ -75,9 +73,4 @@ export default function Main() {
     </main>
   )
 }
-<<<<<<< HEAD
-console.log("1");
-=======
-console.log("hello");
->>>>>>> 8d182df0623ea05f3753ba4ed33a8ce5732f6dbc
 
