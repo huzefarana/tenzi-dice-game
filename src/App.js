@@ -73,4 +73,4 @@ export default function Main() {
     </main>
   )
 }
-console.log("Hello");
+
