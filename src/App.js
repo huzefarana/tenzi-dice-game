@@ -3,31 +3,32 @@ import Die from "./Die"
 import { nanoid } from "nanoid";
 import Confetti from 'react-confetti'
 
+function generateNewDice(){
+  return{
+      value: Math.ceil(Math.random() * 6),
+      isClicked: false,
+      id: nanoid(),
+  }
+}
 export default function Main() {
   function allNewDie() {
     const newDice = []
     for (let i = 0; i < 10; i++) {
-      newDice.push({
-        value: Math.ceil(Math.random() * 6),
-        isHeld: false,
-        id: nanoid(),
-      })
+      newDice.push(generateNewDice())
     }
     return newDice
   }
+  
   const [dice, setDice] = React.useState(allNewDie)
   const [tenzies, setTenzies] = React.useState(false)
   function rollDice() {
     if(!tenzies){
       setDice(oldDice => oldDice.map(die =>{
-        return die.isHeld ?
+        return die.isClicked ?
             die:
-            {
-              value: Math.ceil(Math.random() * 6),
-              isHeld: false,
-              id: nanoid(),
-            }
+            generateNewDice()
       }))
+      // this else will update the game to its initial position
     }else{
       setTenzies(false)
       setDice(allNewDie())
@@ -38,14 +39,20 @@ export default function Main() {
 
     setDice(oldDice => oldDice.map(die => {
       return die.id === id ?
-        { ...die, isHeld: !die.isHeld } :
+        { ...die, isClicked: !die.isClicked } :
         die
     }))
   }
+  var count = 0
+  var disp = document.getElementById("display")
+  function increase(){
+    count++
+    disp.innerHTML = count;
+  }
 
-  // checking game over
+  // checking game over on every change in "dice" state
   React.useEffect(()=>{
-    const allHeld = dice.every(die => die.isHeld)
+    const allHeld = dice.every(die => die.isClicked)
     const firsValue = dice[0].value
     const allSameValue = dice.every(die => die.value === firsValue)
     if (allHeld && allSameValue){
@@ -56,7 +63,7 @@ export default function Main() {
   const diceElements = dice.map(
     die => <Die key={die.id}
       value={die.value}
-      isHeld={die.isHeld}
+      isClicked={die.isClicked}
       holdDice={() => holdDice(die.id)}
     />)
 
@@ -69,8 +76,9 @@ export default function Main() {
       <div className="die-container">
         {diceElements}
       </div><br></br>
-      <button className="roll-btn" onClick={rollDice}>{tenzies ? "New game": "Roll"}</button>
-    </main>
+      <button className="roll-btn" onClick={ () => {rollDice();increase()} }>{tenzies ? "New game": "Roll"}</button>
+      <h3 className="track"> No.of rolls:<span id="display"></span></h3>
+    </main> 
   )
 }
 
