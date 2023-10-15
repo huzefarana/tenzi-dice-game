@@ -21,6 +21,7 @@ export default function Main() {
   
   const [dice, setDice] = React.useState(allNewDie)
   const [tenzies, setTenzies] = React.useState(false)
+  const [count,setCount] = React.useState(0)
   function rollDice() {
     if(!tenzies){
       setDice(oldDice => oldDice.map(die =>{
@@ -43,11 +44,12 @@ export default function Main() {
         die
     }))
   }
-  var count = 0
-  var disp = document.getElementById("display")
+  // var count = 0
+  // console.log(count);
+  // var disp = document.getElementById("display")
   function increase(){
-    count++
-    disp.innerHTML = count;
+    setCount(count+1)
+    // disp.innerHTML = count;
   }
 
   // checking game over on every change in "dice" state
@@ -77,7 +79,7 @@ export default function Main() {
         {diceElements}
       </div><br></br>
       <button className="roll-btn" onClick={ () => {rollDice();increase()} }>{tenzies ? "New game": "Roll"}</button>
-      <h3 className="track"> No.of rolls:<span id="display"></span></h3>
+      <h3 className="track"> No.of rolls:<span id="display">{count}</span></h3>
     </main> 
   )
 }
