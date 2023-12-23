@@ -3,6 +3,7 @@ import Die from "./Die";
 import { nanoid } from "nanoid";
 import Confetti from "react-confetti";
 import { BrowserRouter } from "react-router-dom";
+import "./App.css";
 
 function generateNewDice() {
   return {
@@ -17,6 +18,7 @@ export default function Main() {
     for (let i = 0; i < 10; i++) {
       newDice.push(generateNewDice());
     }
+    console.log(newDice);
     return newDice;
   }
 
@@ -30,10 +32,11 @@ export default function Main() {
           return die.isClicked ? die : generateNewDice();
         })
       );
-      // this else will update the game to its initial position
+      increase(); // Move increase call here
     } else {
       setTenzies(false);
       setDice(allNewDie());
+      setCount(0);
     }
   }
 
@@ -82,13 +85,7 @@ export default function Main() {
         </p>
         <div className="die-container">{diceElements}</div>
         <br></br>
-        <button
-          className="roll-btn"
-          onClick={() => {
-            rollDice();
-            increase();
-          }}
-        >
+        <button className="roll-btn" onClick={rollDice}>
           {tenzies ? "New game" : "Roll"}
         </button>
         <h3 className="track">
