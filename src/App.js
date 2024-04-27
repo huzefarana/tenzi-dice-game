@@ -75,7 +75,7 @@ export default function Main() {
   ));
 
   return (
-    <BrowserRouter basename="/tenzis">
+    <BrowserRouter basename="/">
       <main>
         {tenzies && <Confetti />}
         <h1 className="title">Tenzies</h1>
